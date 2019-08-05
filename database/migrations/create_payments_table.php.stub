@@ -25,9 +25,9 @@ class CreatePaymentsTable extends Migration
 
             $table->string('state')->default(PaymentState::defaultValue());
 
-            $table->id('payable_id');
+            $table->integer('payable_id');
             $table->string('payable_type');
-            $table->id('payer_id');
+            $table->integer('payer_id');
             $table->string('payer_type');
 
             $table->timestamps();

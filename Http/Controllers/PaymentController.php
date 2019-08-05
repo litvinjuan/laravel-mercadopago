@@ -6,19 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use litvinjuan\MPPayments\CreateAndBeginPaymentHandler;
-use litvinjuan\MPPayments\Payable;
 use litvinjuan\MPPayments\PaymentDTO;
 
 class PaymentController extends Controller
 {
 
-    public function form(Payable $payable)
+    public function form($payable)
     {
         return view('mppayments::form')
             ->with('payable', $payable);
     }
 
-    public function pay(Payable $payable, Request $request, CreateAndBeginPaymentHandler $createAndBeginPaymentHandler)
+    public function pay($payable, Request $request, CreateAndBeginPaymentHandler $createAndBeginPaymentHandler)
     {
         Validator::make(
             $request->all(),
@@ -29,7 +28,7 @@ class PaymentController extends Controller
         )->validate();
 
         $data = new PaymentDTO($request->get('paymentMethodId'), $request->get('cardToken'), $payable);
-        $payment = $createAndBeginPaymentHandler->handle($data);
+        $createAndBeginPaymentHandler->handle($data);
 
         return redirect()->route(config('mppayments.redirect-route-name'));
     }
