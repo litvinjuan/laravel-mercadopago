@@ -2,7 +2,7 @@
 
 namespace litvinjuan\MPPayments;
 
-trait Payer
+trait CanPay
 {
 
     abstract public function getPayerEmail(): string;
