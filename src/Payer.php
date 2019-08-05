@@ -2,9 +2,9 @@
 
 namespace litvinjuan\LaravelMercadoPago;
 
-interface Payer
+trait Payer
 {
 
-    public function getPayerEmail(): string;
+    abstract public function getPayerEmail(): string;
 
 }

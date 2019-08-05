@@ -4,11 +4,11 @@ namespace litvinjuan\LaravelMercadoPago;
 
 use Money\Money;
 
-interface Payable
+trait Payable
 {
 
-    public function getPayablePrice(): Money;
+    abstract public function getPayablePrice(): Money;
 
-    public function getPayableDescription(): string;
+    abstract public function getPayableDescription(): string;
 
 }
