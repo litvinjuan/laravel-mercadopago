@@ -25,7 +25,7 @@ class MPPaymentsServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'mppayments');
 
-        $this->loadRoutesFrom(__DIR__.'../routes/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
     }
 
     public function register()
