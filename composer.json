@@ -31,5 +31,7 @@
         "litvinjuan\\MPPayments\\MPPaymentsServiceProvider"
       ]
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
