@@ -1,42 +1,86 @@
-{{ html()->form('POST', route('checkout.doPay', $order))->id('pay')->open() }}
-    {{ html()->hidden('paymentMethodId')->id('paymentMethodId') }}
-    {{ html()->hidden('cardToken')->id('cardToken') }}
+{{ html()->form('POST', route('pay', $payable))->id('pay')->open() }}
+    @include('payment-hidden')
 
     <div class="row">
         <div class="form-group col-md-8">
-            {{ html()->label('Número de Tarjeta', 'cardNumber') }}
-            <input class="form-control" type="text" id="cardNumber" data-checkout="cardNumber" placeholder="1111 2222 3333 4444" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+            @include('card-number')
         </div>
 
         <div class="form-group col-md-2">
-            {{ html()->label('Mes de Expiración', 'cardExpirationMonth') }}
-            <input class="form-control" type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" placeholder="MM" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+            @include('card-expiration-month')
         </div>
         <div class="form-group col-md-2">
-            {{ html()->label('Año de Expiración', 'cardExpirationYear') }}
-            <input class="form-control" type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" placeholder="AAAA" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+            @include('card-expiration-year')
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-5">
-            {{ html()->label('Nombre en la tarjeta', 'cardholderName') }}
-            <input class="form-control" type="text" id="cardholderName" data-checkout="cardholderName" placeholder="Juan Perez" />
+            @include('card-name')
         </div>
         <div class="form-group col-md-2">
-            {{ html()->label('Tipo de Documento', 'docType') }}
-            <select class="form-control" id="docType" data-checkout="docType">
-                <option>Cargando...</option>
-            </select>
+            @include('doc-type')
         </div>
         <div class="form-group col-md-3">
-            {{ html()->label('Número de Documento', 'docNumber') }}
-            <input class="form-control" type="text" id="docNumber" data-checkout="docNumber" placeholder="12345678" />
+            @include('doc-number')
         </div>
         <div class="form-group col-sm-2">
-            {{ html()->label('CVV', 'securityCode') }}
-            <input class="form-control" type="text" id="securityCode" data-checkout="securityCode" placeholder="123" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+            @include('card-cvv')
         </div>
     </div>
 
-    <input class=" btn btn-primary btn-block btn-lg" type="submit" value="Pagar" />
+    <input id="submit" type="submit" value="Pagar" />
 {{ html()->form()->close() }}
+
+<script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+<script>
+    $(document).ready(function () {
+        let MP = window.Mercadopago;
+        MP.setPublishableKey({{ config('mppayments.public-key') }});
+
+        MP.getIdentificationTypes(function(status, codes) {
+            let select = $('#docType');
+            select.empty();
+            codes.forEach(function (code) {
+                let option = document.createElement('option');
+                option.value = code['id'];
+                option.text = code['name'];
+                select.append(option);
+            })
+        }); // getIdentificationTypes
+
+        $('#cardNumber').change(function () {
+            var bin = $(this).val().substring(0,6);
+
+            if (bin.length < 6) {
+                return;
+            }
+
+            MP.getPaymentMethod({"bin": bin}, function(status, response) {
+                if (status !== 200) {
+                    $('#cardNumber').addClass('border-danger');
+                    return;
+                }
+
+                $('#cardNumber').removeClass('border-danger');
+                $('#paymentMethodId').val(response[0].id);
+            });
+        }); // #cardNumber -> change
+
+        $('#pay').submit(function (e) {
+            if (!$('#cardToken').val()) {
+                e.preventDefault();
+                MP.createToken($('#pay'), function (status, response) {
+                    if (status !== 200 && status !== 201) {
+                        alert("verify card data");
+                        return false;
+                    }
+
+                    $('#cardToken').val(response.id);
+                    $('#pay').submit();
+                });
+                return false;
+            }
+        }); // #pay -> submit
+
+    }); // document -> ready
+</script>

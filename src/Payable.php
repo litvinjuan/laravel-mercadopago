@@ -2,13 +2,16 @@
 
 namespace litvinjuan\MPPayments;
 
+use Illuminate\Contracts\Routing\UrlRoutable;
 use Money\Money;
 
-trait Payable
+interface Payable extends UrlRoutable
 {
 
-    abstract public function getPayablePrice(): Money;
+    public function getPayablePrice(): Money;
 
-    abstract public function getPayableDescription(): string;
+    public function getPayableDescription(): string;
+
+    public function payer(): Payer;
 
 }

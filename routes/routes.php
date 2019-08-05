@@ -2,6 +2,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('testing-payment-route', function () {
-    return view('mppayments::form');
-});
+Route::get('/pay/{payable}', [PaymentController::class, 'form'])->name('form');
+Route::post('/pay/{payable}', [PaymentController::class, 'pay'])->name('pay');

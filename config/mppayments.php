@@ -3,23 +3,15 @@
 return [
 
     /*
-     * Public Key for Custom Checkout
+     * Fields for Custom Checkout
      */
-    'public-key' => '',
+    'public-key' => env('MPPAYMENTS_PUBLIC_KEY', ''),
+    'access-token' => env('MPPAYMENTS_ACCESS_TOKEN', ''),
 
     /*
-     * Access Token for Custom Checkout
+     * FIelds for Basic Checkout
      */
-    'access-token' => '',
-
-    /*
-     * Client Id for Basic Checkout
-     */
-    'client-id' => '',
-
-    /*
-     * Client Secret for Basic Checkout
-     */
-    'client-secret' => '',
+    'client-id' => env('MPPAYMENTS_CLIENT_ID', ''),
+    'client-secret' => env('MPPAYMENTS_CLIENT_SECRET', ''),
 
 ];
