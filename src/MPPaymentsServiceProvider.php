@@ -1,5 +1,7 @@
 <?php
 
+namespace litvinjuan\MPPayments;
+
 use Illuminate\Support\ServiceProvider;
 
 class MPPaymentsServiceProvider extends ServiceProvider
