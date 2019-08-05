@@ -14,6 +14,9 @@ class CreatePaymentHandler
         $payment->price = $payload->payable()->getPayablePrice();
         $payment->description = $payload->payable()->getPayableDescription();
 
+        $payment->payable()->associate($payload->payable());
+        $payment->payer()->associate($payload->payable()->payer());
+
         $payment->save();
 
         return $payment;

@@ -11,6 +11,4 @@ interface PaymentPayload
 
     public function payable(): Payable;
 
-    public function payer(): Payer;
-
 }

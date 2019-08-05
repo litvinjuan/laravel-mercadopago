@@ -14,4 +14,6 @@ interface Payable extends UrlRoutable
 
     public function payer(): Payer;
 
+    public function savePayment(Payment $payment);
+
 }

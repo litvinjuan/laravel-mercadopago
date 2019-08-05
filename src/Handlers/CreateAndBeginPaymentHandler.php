@@ -17,7 +17,7 @@ class CreateAndBeginPaymentHandler
         $this->beginPaymentHandler = $beginPaymentHandler;
     }
 
-    public function handle(PaymentPayload $payload)
+    public function handle(PaymentPayload $payload): Payment
     {
         $payment = $this->createPaymentHandler->handle($payload);
         $this->beginPaymentHandler->handle($payment);

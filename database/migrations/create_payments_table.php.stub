@@ -16,13 +16,19 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('mp_id')->nullable();
             $table->string('payment_method_id');
             $table->string('card_token');
+
             $table->integer('price');
             $table->integer('paid')->nullable();
+
             $table->string('state')->default(PaymentState::defaultValue());
 
-            $table->string('external_id')->nullable();
+            $table->id('payable_id');
+            $table->string('payable_type');
+            $table->id('payer_id');
+            $table->string('payer_type');
 
             $table->timestamps();
             $table->softDeletes();

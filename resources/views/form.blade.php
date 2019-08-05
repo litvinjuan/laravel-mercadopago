@@ -1,4 +1,4 @@
-{{ html()->form('POST', route('pay', $payable))->id('pay')->open() }}
+{{ html()->form('POST', route('mppayments.pay', $payable))->id('pay')->open() }}
     @include('payment-hidden')
 
     <div class="row">

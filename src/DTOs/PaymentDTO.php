@@ -14,15 +14,11 @@ class PaymentDTO implements PaymentPayload
     /** @var Payable */
     private $payable;
 
-    /** @var Payer */
-    private $payer;
-
-    public function __construct(string $paymentMethodId, string $cardToken, Payable $payable, Payer $payer)
+    public function __construct(string $paymentMethodId, string $cardToken, Payable $payable)
     {
         $this->paymentMethodId = $paymentMethodId;
         $this->cardToken = $cardToken;
         $this->payable = $payable;
-        $this->payer = $payer;
     }
 
     public function paymentMethodId(): string
@@ -38,11 +34,6 @@ class PaymentDTO implements PaymentPayload
     public function payable(): Payable
     {
         return $this->payable;
-    }
-
-    public function payer(): Payer
-    {
-        return $this->payer;
     }
 
 }
