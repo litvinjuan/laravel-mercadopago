@@ -25,7 +25,7 @@
   "autoload": {
     "psr-4": {
       "litvinjuan\\MPPayments\\": "src",
-      "litvinjuan\\MPPayments\\Controllers\\": "Controllers"
+      "litvinjuan\\MPPayments\\Http\\": "Http"
     }
   },
   "extra": {
