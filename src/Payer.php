@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\LaravelMercadoPago;
+namespace litvinjuan\MPPayments;
 
 trait Payer
 {

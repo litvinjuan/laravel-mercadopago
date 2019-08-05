@@ -1,9 +1,9 @@
 {
-  "name": "litvinjuan/laravel-mercadopago",
-  "description": "A MercadoPago Payment package for Laravel",
+  "name": "litvinjuan/MPPayments",
+  "description": "A MercadoPago Payments package for Laravel",
   "license": "MIT",
-  "keywords": ["mercadopago", "mercadolibre", "argentina", "payments", "pagos", "pago", "mercadolibre"],
-  "homepage": "http://juanlitvin.com",
+  "keywords": ["mercadopago", "mercadolibre", "argentina", "payments", "pagos", "pago", "mercadolibre", "litvinjuan"],
+  "homepage": "https://juanlitvin.com",
   "authors": [
     {
       "name": "Juan Litvin",
@@ -17,14 +17,19 @@
     "moneyphp/money": "^3.2",
     "konekt/enum-eloquent": "^1.2",
     "mercadopago/dx-php": "^1.2",
-    "carbondate/carbon": "^1.33"
-  },
-  "require-dev": {
-
+    "carbondate/carbon": "^1.33",
+    "spatie/laravel-html": "^2.22"
   },
   "autoload": {
     "psr-4": {
-      "litvinjuan\\LaravelMercadoPago\\": "src"
+      "litvinjuan\\MPPayments\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "litvinjuan\\MPPayments\\MPPaymentsServiceProvider"
+      ]
     }
   }
 }
