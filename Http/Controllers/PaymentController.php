@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\MPPayments\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
