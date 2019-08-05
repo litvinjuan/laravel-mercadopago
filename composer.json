@@ -14,10 +14,10 @@
   "require": {
     "php": ">=7",
     "ext-json": "*",
-    "illuminate/support": "^5.8.30",
     "moneyphp/money": "^3.2",
     "konekt/enum-eloquent": "^1.2",
-    "mercadopago/dx-php": "^1.2"
+    "mercadopago/dx-php": "^1.2",
+    "carbondate/carbon": "^1.33"
   },
   "require-dev": {
 
