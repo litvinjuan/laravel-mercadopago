@@ -30,7 +30,7 @@ class LaravelPaymentsServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/payments.php', 'laravel-payments');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-payments.php', 'laravel-payments');
     }
 
 }

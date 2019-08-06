@@ -15,10 +15,9 @@ trait HasPayment
         return redirect()->route('laravel-payments.form', $this);
     }
 
-    public function createPayment()
+    public function createPayment(): Payment
     {
-        (new CreatePaymentHandler())->handle($this);
-        return $this->morphOne(Payment::class, 'payable');
+        return (new CreatePaymentHandler())->handle($this);
     }
 
 }
