@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\LaravelPayments;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

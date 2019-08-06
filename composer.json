@@ -24,8 +24,8 @@
   },
   "autoload": {
     "psr-4": {
-      "litvinjuan\\MPPayments\\": "src",
-      "litvinjuan\\MPPayments\\Http\\": "Http"
+      "litvinjuan\\LaravelPayments\\": "src",
+      "litvinjuan\\LaravelPayments\\Http\\": "Http"
     },
     "files": [
       "src\\Util\\helpers.php"
@@ -34,7 +34,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "litvinjuan\\MPPayments\\MPPaymentsServiceProvider"
+        "litvinjuan\\LaravelPayments\\LaravelPaymentsServiceProvider"
       ]
     }
   },

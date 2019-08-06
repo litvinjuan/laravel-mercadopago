@@ -1,21 +1,19 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\LaravelPayments;
 
 class CreatePaymentHandler
 {
 
-    public function handle(PaymentPayload $payload): Payment
+    public function handle(Payable $payable): Payment
     {
         $payment = new Payment();
         $payment->state = PaymentState::defaultValue();
-        $payment->payment_method_id = $payload->paymentMethodId();
-        $payment->card_token = $payload->cardToken();
-        $payment->price = $payload->payable()->getPayablePrice();
-        $payment->description = $payload->payable()->getPayableDescription();
+        $payment->price = $payable->getPayablePrice();
+        $payment->description = $payable->getPayableDescription();
 
-        $payment->payable()->associate($payload->payable());
-        $payment->payer()->associate($payload->payable()->payer());
+        $payment->payable()->associate($payable);
+        $payment->payer()->associate($payable->payer());
 
         $payment->save();
 

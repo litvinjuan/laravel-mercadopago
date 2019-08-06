@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\LaravelPayments;
 
 use Money\MoneyFormatter as BaseFormatter;
 use Money\Money;

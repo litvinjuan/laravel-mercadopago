@@ -1,30 +1,30 @@
-{{ html()->form('POST', route('mppayments.pay', $payable))->id('pay')->open() }}
-    @include('mppayments::payment-hidden')
+{{ html()->form('POST', route('laravel-payments.pay', $payable))->id('pay')->open() }}
+    @include('laravel-payments::payment-hidden')
 
     <div class="row">
         <div class="form-group col-md-8">
-            @include('mppayments::card-number')
+            @include('laravel-payments::card-number')
         </div>
 
         <div class="form-group col-md-2">
-            @include('mppayments::card-expiration-month')
+            @include('laravel-payments::card-expiration-month')
         </div>
         <div class="form-group col-md-2">
-            @include('mppayments::card-expiration-year')
+            @include('laravel-payments::card-expiration-year')
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-5">
-            @include('mppayments::card-name')
+            @include('laravel-payments::card-name')
         </div>
         <div class="form-group col-md-2">
-            @include('mppayments::doc-type')
+            @include('laravel-payments::doc-type')
         </div>
         <div class="form-group col-md-3">
-            @include('mppayments::doc-number')
+            @include('laravel-payments::doc-number')
         </div>
         <div class="form-group col-sm-2">
-            @include('mppayments::card-cvv')
+            @include('laravel-payments::card-cvv')
         </div>
     </div>
 
@@ -35,7 +35,7 @@
 <script>
     $(document).ready(function () {
         let MP = window.Mercadopago;
-        MP.setPublishableKey({{ config('mppayments.public-key') }});
+        MP.setPublishableKey({{ config('laravel-payments.public-key') }});
 
         MP.getIdentificationTypes(function(status, codes) {
             let select = $('#docType');

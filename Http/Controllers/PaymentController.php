@@ -1,19 +1,19 @@
 <?php
 
-namespace litvinjuan\MPPayments\Http\Controllers;
+namespace litvinjuan\LaravelPayments\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
-use litvinjuan\MPPayments\CreateAndBeginPaymentHandler;
-use litvinjuan\MPPayments\PaymentDTO;
+use litvinjuan\LaravelPayments\CreateAndBeginPaymentHandler;
+use litvinjuan\LaravelPayments\PaymentDTO;
 
 class PaymentController extends Controller
 {
 
     public function form($payable)
     {
-        return view('mppayments::form')
+        return view('laravel-payments::form')
             ->with('payable', $payable);
     }
 
@@ -30,7 +30,7 @@ class PaymentController extends Controller
         $data = new PaymentDTO($request->get('paymentMethodId'), $request->get('cardToken'), $payable);
         $createAndBeginPaymentHandler->handle($data);
 
-        return redirect()->route(config('mppayments.redirect-route-name'));
+        return redirect()->route(config('laravel-payments.redirect-route-name'));
     }
 
 }

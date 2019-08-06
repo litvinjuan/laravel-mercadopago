@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\LaravelPayments;
 
 trait HasPayment
 {
@@ -12,7 +12,13 @@ trait HasPayment
 
     public function redirectToPayment()
     {
-        return redirect()->route('mppayments.form', $this);
+        return redirect()->route('laravel-payments.form', $this);
+    }
+
+    public function createPayment()
+    {
+        (new CreatePaymentHandler())->handle($this);
+        return $this->morphOne(Payment::class, 'payable');
     }
 
 }

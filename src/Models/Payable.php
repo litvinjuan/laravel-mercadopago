@@ -1,6 +1,6 @@
 <?php
 
-namespace litvinjuan\MPPayments;
+namespace litvinjuan\LaravelPayments;
 
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Money\Money;

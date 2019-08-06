@@ -1,6 +1,6 @@
 <?php
 
-use litvinjuan\MPPayments\PaymentState;
+use litvinjuan\LaravelPayments\PaymentState;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,9 +16,10 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->string('mp_id')->nullable();
-            $table->string('payment_method_id');
-            $table->string('card_token');
+            $table->string('payment_method_id')->nullable();
+            $table->string('card_token')->nullable();
 
             $table->integer('price');
             $table->integer('paid')->nullable();
