@@ -3,13 +3,10 @@
 namespace litvinjuan\LaravelPayments\Payments;
 
 use Carbon\Carbon;
-use Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
-use litvinjuan\LaravelPayments\Handlers\CheckPaymentHandler;
-use litvinjuan\LaravelPayments\Handlers\CompletePaymentHandler;
-use litvinjuan\LaravelPayments\Handlers\PurchasePaymentHandler;
 use Money\Money;
 
 /**
@@ -23,7 +20,7 @@ use Money\Money;
  * @property Money $paid
  *
  * @property PaymentState $state
- * @property string $provider
+ * @property string $data
  *
  * @property-read Payable $payable
  * @property-read Payer $payer
@@ -36,7 +33,6 @@ class Payment extends Model
 {
     use SoftDeletes;
     use CastsEnums;
-    use PaymentAttributes;
 
     protected $dates = [
         'completed_at'
@@ -46,31 +42,34 @@ class Payment extends Model
         'state' => PaymentState::class,
     ];
 
-    public function purchase(Closure $callback = null): self
+    public function payable(): MorphTo
     {
-        $response = (new PurchasePaymentHandler())->handle($this);
-
-        if ($callback) {
-            $callback($response);
-        }
-
-        return $this;
+        return $this->morphTo();
     }
 
-    public function complete(Closure $callback = null): self
+    public function payer(): MorphTo
     {
-        $response = (new CompletePaymentHandler())->handle($this);
-
-        if ($callback) {
-            $callback($response);
-        }
-
-        return $this;
+        return $this->morphTo();
     }
 
-    public function check(): bool
+    public function getPriceAttribute(): Money
     {
-        return (new CheckPaymentHandler())->handle($this);
+        return money($this->attributes['price']);
+    }
+
+    public function setPriceAttribute(Money $money)
+    {
+        $this->attributes['price'] = $money->getAmount();
+    }
+
+    public function getPaidAttribute(): Money
+    {
+        return money($this->attributes['paid']);
+    }
+
+    public function setPaidAttribute(Money $money)
+    {
+        $this->attributes['paid'] = $money->getAmount();
     }
 
 }
