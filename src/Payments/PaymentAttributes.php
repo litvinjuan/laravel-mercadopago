@@ -7,13 +7,6 @@ use Money\Money;
 
 trait PaymentAttributes
 {
-    protected $dates = [
-        'completed_at'
-    ];
-
-    protected $enums = [
-        'state' => PaymentState::class,
-    ];
 
     public function payable(): MorphTo
     {

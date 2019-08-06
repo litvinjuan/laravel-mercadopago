@@ -38,18 +38,32 @@ class Payment extends Model
     use CastsEnums;
     use PaymentAttributes;
 
-    public function purchase(Closure $callback): self
+    protected $dates = [
+        'completed_at'
+    ];
+
+    protected $enums = [
+        'state' => PaymentState::class,
+    ];
+
+    public function purchase(Closure $callback = null): self
     {
         $response = (new PurchasePaymentHandler())->handle($this);
-        $callback($response);
+
+        if ($callback) {
+            $callback($response);
+        }
 
         return $this;
     }
 
-    public function complete(Closure $callback): self
+    public function complete(Closure $callback = null): self
     {
         $response = (new CompletePaymentHandler())->handle($this);
-        $callback($response);
+
+        if ($callback) {
+            $callback($response);
+        }
 
         return $this;
     }
