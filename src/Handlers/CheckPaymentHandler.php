@@ -14,11 +14,11 @@ class CheckPaymentHandler
             return false;
         }
 
-        if (!$payment->paid) {
+        if (! $payment->paid) {
             return false;
         }
 
-        if ($payment->paid !== $payment->price) {
+        if (! $payment->paid->equals($payment->price)) {
             return false;
         }
 
