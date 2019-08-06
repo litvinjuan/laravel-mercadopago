@@ -11,7 +11,7 @@ class PaymentState extends Enum
 
     const PENDING = 'pending';
     const PURCHASED = 'purchased';
-    const PAID = 'paid';
+    const COMPLETED = 'completed';
     const FAILED = 'failed';
 
     public static function all()
@@ -19,7 +19,7 @@ class PaymentState extends Enum
         return [
             self::PENDING,
             self::PURCHASED,
-            self::PAID,
+            self::COMPLETED,
             self::FAILED,
         ];
     }
@@ -27,7 +27,7 @@ class PaymentState extends Enum
     protected static $labels = [
         self::PENDING => 'Pending',
         self::PURCHASED => 'Purchased',
-        self::PAID => 'Paid',
+        self::COMPLETED => 'Completed',
         self::FAILED => 'Failed',
     ];
 

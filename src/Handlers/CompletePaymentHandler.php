@@ -10,7 +10,7 @@ class CompletePaymentHandler
 
     public function handle(Payment $payment): Payment
     {
-        $payment->state = PaymentState::PAID;
+        $payment->state = PaymentState::COMPLETED;
         $payment->save();
 
         return $payment;

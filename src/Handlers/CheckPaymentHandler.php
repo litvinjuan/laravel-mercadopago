@@ -10,7 +10,7 @@ class CheckPaymentHandler
 
     public function handle(Payment $payment): bool
     {
-        if ($payment->state !== PaymentState::PAID) {
+        if ($payment->state !== PaymentState::COMPLETED) {
             return false;
         }
 
