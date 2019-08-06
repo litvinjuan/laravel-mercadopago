@@ -1,18 +1,16 @@
 <?php
 
-namespace litvinjuan\LaravelPayments;
+namespace litvinjuan\LaravelPayments\Payments;
+
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use litvinjuan\LaravelPayments\Handlers\CreatePaymentHandler;
 
 trait HasPayment
 {
 
-    public function payment()
+    public function payment(): MorphOne
     {
         return $this->morphOne(Payment::class, 'payable');
-    }
-
-    public function redirectToPayment()
-    {
-        return redirect()->route('laravel-payments.form', $this);
     }
 
     public function createPayment(): Payment

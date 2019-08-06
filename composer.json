@@ -2,7 +2,16 @@
   "name": "litvinjuan/laravel-payments",
   "description": "A MercadoPago Payments package for Laravel",
   "license": "MIT",
-  "keywords": ["mercadopago", "mercadolibre", "argentina", "payments", "pagos", "pago", "mercadolibre", "litvinjuan"],
+  "keywords": [
+    "laravel",
+    "payments",
+    "argentina",
+    "pay",
+    "pagos",
+    "pagar",
+    "PHP",
+    "litvinjuan"
+  ],
   "homepage": "https://juanlitvin.com",
   "authors": [
     {
@@ -24,8 +33,7 @@
   },
   "autoload": {
     "psr-4": {
-      "litvinjuan\\LaravelPayments\\": "src",
-      "litvinjuan\\LaravelPayments\\Http\\": "Http"
+      "litvinjuan\\LaravelPayments\\": "src"
     },
     "files": [
       "src\\Util\\helpers.php"

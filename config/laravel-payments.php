@@ -5,15 +5,9 @@ return [
     'default_gateway' => 'dummy',
 
     'gateways' => [
+        'dummy' => \litvinjuan\LaravelPayments\Gateways\DummyGateway::class,
 
-        'dummy' => [
-            'gateway' => '',
-        ],
-
-//        'another' => [
-//            'gateway' => '',
-//        ],
-
+//        'another' => Another\Gateway\Implementation::class,
     ],
 
 ];

@@ -1,8 +1,9 @@
 <?php
 
-namespace litvinjuan\LaravelPayments;
+namespace litvinjuan\LaravelPayments\Payments;
 
 use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Money\Money;
 
 interface Payable extends UrlRoutable
@@ -12,6 +13,12 @@ interface Payable extends UrlRoutable
 
     public function getPayableDescription(): string;
 
+    public function getPaymentProvider(): string;
+
     public function payer(): Payer;
+
+    public function payment(): MorphOne;
+
+    public function createPayment(): Payment;
 
 }

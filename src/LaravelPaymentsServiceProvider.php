@@ -15,17 +15,11 @@ class LaravelPaymentsServiceProvider extends ServiceProvider
 
         if (! class_exists('CreatePaymentsTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/2019_01_01_000000_create_payments_table.php.stub' => database_path('migrations/2019_01_01_000000_create_payments_table.php'),
+                __DIR__ . '/../database/migrations/create_payments_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_payments_table.php'),
             ], 'migrations');
         }
 
-        $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-payments'),
-        ], 'views');
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-payments');
-
-        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
     }
 
     public function register()
