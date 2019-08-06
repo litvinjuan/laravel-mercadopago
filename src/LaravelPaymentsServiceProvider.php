@@ -18,8 +18,6 @@ class LaravelPaymentsServiceProvider extends ServiceProvider
                 __DIR__ . '/../database/migrations/create_payments_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_payments_table.php'),
             ], 'migrations');
         }
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-payments');
     }
 
     public function register()
