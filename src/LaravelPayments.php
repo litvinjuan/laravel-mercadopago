@@ -11,6 +11,13 @@ use litvinjuan\LaravelPayments\Payments\Payment;
 class LaravelPayments
 {
 
+    /**
+     * @param Payment $payment
+     * @param Closure|null $callback
+     * @return Payment
+     * @throws Exceptions\InvalidRequestException
+     * @throws Exceptions\InvalidGatewayException
+     */
     public static function purchase(Payment $payment, Closure $callback = null): Payment
     {
         $response = (new PurchasePaymentHandler())->handle($payment);

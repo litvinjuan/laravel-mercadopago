@@ -20,7 +20,7 @@ use Money\Money;
  * @property Money $paid
  *
  * @property PaymentState $state
- * @property string $data
+ * @property array $data
  *
  * @property-read Payable $payable
  * @property-read Payer $payer
@@ -36,6 +36,10 @@ class Payment extends Model
 
     protected $dates = [
         'completed_at'
+    ];
+
+    protected $casts = [
+        'data' => 'array'
     ];
 
     protected $enums = [
