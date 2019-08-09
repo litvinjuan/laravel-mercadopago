@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
-use litvinjuan\LaravelPayments\Exceptions\InvalidGatewayException;
-use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Handlers\ValidateTransactionPaymentHandler;
 use Money\Money;
 
