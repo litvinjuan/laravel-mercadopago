@@ -3,10 +3,14 @@
 namespace litvinjuan\LaravelPayments\Payments;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
+use litvinjuan\LaravelPayments\Exceptions\InvalidGatewayException;
+use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
+use litvinjuan\LaravelPayments\Handlers\ValidateTransactionPaymentHandler;
 use Money\Money;
 
 /**
@@ -15,12 +19,15 @@ use Money\Money;
  *
  * @property int $id
  *
- * @property string $description
+ * @property string|null $gateway_name
+ * @property string|null $gateway_id
+ *
  * @property Money $price
- * @property Money $paid
+ * @property Money|null $paid
+ * @property string $description
  *
  * @property PaymentState $state
- * @property string $data
+ * @property array $data
  *
  * @property-read Payable $payable
  * @property-read Payer $payer
@@ -36,6 +43,10 @@ class Payment extends Model
 
     protected $dates = [
         'completed_at'
+    ];
+
+    protected $casts = [
+        'data' => 'array'
     ];
 
     protected $enums = [
@@ -70,6 +81,24 @@ class Payment extends Model
     public function setPaidAttribute(Money $money)
     {
         $this->attributes['paid'] = $money->getAmount();
+    }
+
+    public function setGateway(string $gateway)
+    {
+        $this->gateway_name = $gateway;
+        $this->save();
+    }
+
+    /**
+     * @return bool
+     */
+    public function validate()
+    {
+        try {
+            return (new ValidateTransactionPaymentHandler())->handle($this);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
 }

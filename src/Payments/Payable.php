@@ -13,8 +13,6 @@ interface Payable extends UrlRoutable
 
     public function getPayableDescription(): string;
 
-    public function getPaymentProvider(): string;
-
     public function payer(): Payer;
 
     public function payment(): MorphOne;

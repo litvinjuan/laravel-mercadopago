@@ -1,6 +1,5 @@
 <?php
 
-use litvinjuan\LaravelPayments\Util\MoneyFormatter;
 use Money\Currency;
 use Money\Money;
 
@@ -12,17 +11,9 @@ if (! function_exists('money')) {
         }
 
         if (! $currency) {
-            $currency = config('app.currency', 'ARS');
+            $currency = config('laravel-payments.currency', 'ARS');
         }
 
         return new Money($amount, new Currency($currency));
-    }
-}
-
-
-if (! function_exists('moneyFormat')) {
-    function moneyFormat(Money $money)
-    {
-        return (new MoneyFormatter())->format($money);
     }
 }
