@@ -1,9 +1,10 @@
 <?php
 
-namespace litvinjuan\LaravelPayments\Gateways;
+namespace litvinjuan\LaravelPayments\Requests;
 
 use Exception;
-use litvinjuan\LaravelPayments\Payments\PaymentState;
+use litvinjuan\LaravelPayments\Responses\AbstractResponse;
+use litvinjuan\LaravelPayments\Responses\PurchaseResponse;
 use MercadoPago\Payment as MPPayment;
 use MercadoPago\SDK as MP;
 
@@ -38,21 +39,14 @@ class PurchaseRequest extends AbstractRequest
         $mpPayment->token = $this->getCardToken();
         $mpPayment->payment_method_id = $this->getPaymentMethodId();
         $mpPayment->description = $this->payment->description;
+        $mpPayment->statement_descriptor = $this->payment->description;
         $mpPayment->payer = [
             'email' => $this->payment->payer->getPayerEmail()
         ];
 
         $response = $mpPayment->save();
 
-        // Save received response data
-        $this->saveReceivedResponseData($response);
-
-        $data = [
-            'id' => $response['id'],
-            'state' => $this->translateState($response['status'], $response['status_detail']),
-        ];
-
-        return new PurchaseResponse($data);
+        return new PurchaseResponse($response);
     }
 
     /**
@@ -76,21 +70,7 @@ class PurchaseRequest extends AbstractRequest
      */
     private function getAccessToken(): string
     {
-        $this->getParameter('accessToken');
-    }
-
-    /**
-     * @param string $status
-     * @param string $status_detail
-     * @return PaymentState
-     */
-    private function translateState(string $status, string $status_detail)
-    {
-        if ($status !== 'approved' || $status_detail !== 'accredited') {
-            return new PaymentState(PaymentState::FAILED);
-        }
-
-        return new PaymentState(PaymentState::COMPLETED);
+        return $this->getParameter('accessToken');
     }
 
 }

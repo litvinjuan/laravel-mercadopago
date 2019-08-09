@@ -6,35 +6,43 @@ use litvinjuan\LaravelPayments\Exceptions\InvalidGatewayException;
 use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Gateways\GatewayFactory;
 use litvinjuan\LaravelPayments\Payments\Payment;
+use litvinjuan\LaravelPayments\Payments\PaymentState;
 
-class PurchasePaymentHandler
+class ValidateTransactionPaymentHandler
 {
 
     /**
      * @param Payment $payment
-     * @return Payment
-     * @throws InvalidRequestException
+     * @return bool
      * @throws InvalidGatewayException
+     * @throws InvalidRequestException
      */
-    public function handle(Payment $payment): Payment
+    public function handle(Payment $payment): bool
     {
+        if (! $payment->state->is(PaymentState::COMPLETED)) {
+            return false;
+        }
+
+        if (! $payment->paid) {
+            return false;
+        }
+
+        if (! $payment->paid->equals($payment->price)) {
+            return false;
+        }
+
         // Create Gateway from Factory
         $gateway = GatewayFactory::make($payment);
 
         // Verify the gateway supports this method
-        if (! $gateway->supportsPurchase()) {
+        if (! $gateway->supportsValidateTransaction()) {
             throw InvalidRequestException::notSupported();
         }
 
         // Create and send the request
-        $response = $gateway->purchase()->payment($payment)->send();
+        $response = $gateway->validateTransaction()->payment($payment)->send();
 
-        // Save response data
-        $payment->gateway_id = $response->getGatewayId();
-        $payment->state = $response->getState();
-        $payment->save();
-
-        return $payment;
+        return $response->validated();
     }
 
 }

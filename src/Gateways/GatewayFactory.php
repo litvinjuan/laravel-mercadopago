@@ -9,18 +9,23 @@ class GatewayFactory
 {
 
     /**
-     * @param Payment $payment
+     * Returns an instance of a GatewayInterface corresponding to the given payment
+     *
+     * @param Payment|null $payment
      * @return AbstractGateway
      * @throws InvalidGatewayException
      */
     public static function make(Payment $payment = null): AbstractGateway
     {
-        $gatewayClass = config('laravel-payments.gateways')[optional($payment)->data['provider'] ?? config('laravel-payments.default_gateway')];
+        // Get the Gateway Class from the config file using the payment's gateway_name attribute, or the default gateway if none was set.
+        $gatewayClass = config('laravel-payments.gateways')[optional($payment)->gateway_name ?? config('laravel-payments.default_gateway')];
 
-        if (! isset($gatewayClass)) {
+        // Check the Gateway Class exists
+        if (! class_exists($gatewayClass)) {
             throw InvalidGatewayException::notFound();
         }
 
+        // Create and return a new instance of the Gateway Class
         return new $gatewayClass();
     }
 

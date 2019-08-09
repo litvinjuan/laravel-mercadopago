@@ -2,6 +2,9 @@
 
 namespace litvinjuan\LaravelPayments\Gateways;
 
+use litvinjuan\LaravelPayments\Requests\AbstractRequest;
+use litvinjuan\LaravelPayments\Requests\PurchaseRequest;
+
 class MercadoPagoGateway extends AbstractGateway
 {
 

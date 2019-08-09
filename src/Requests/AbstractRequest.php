@@ -1,12 +1,14 @@
 <?php
 
-namespace litvinjuan\LaravelPayments\Gateways;
+namespace litvinjuan\LaravelPayments\Requests;
 
 use Exception;
 use Illuminate\Support\Collection;
 use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Payments\Payment;
-use Omnipay\Common\ParametersTrait;
+use litvinjuan\LaravelPayments\Responses\AbstractResponse;
+use litvinjuan\LaravelPayments\Responses\ResponseInterface;
+use litvinjuan\LaravelPayments\Util\ParametersTrait;
 
 abstract class AbstractRequest implements RequestInterface
 {
@@ -37,7 +39,7 @@ abstract class AbstractRequest implements RequestInterface
 
     /**
      * @param Payment $payment
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function payment(Payment $payment)
     {
@@ -46,20 +48,8 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param array $data
-     * @return AbstractRequest
-     */
-    public function saveReceivedResponseData(array $data)
-    {
-        $this->payment->data['response'] = $data;
-        $this->payment->save();
-
-        return $this;
-    }
-
-    /**
      * @param array $params
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function withParameters(array $params)
     {
@@ -84,16 +74,39 @@ abstract class AbstractRequest implements RequestInterface
         // Validate request before sending
         $this->validate();
 
-        // Send request and save response
+        // Send request
         $response = $this->execute();
-        $this->response = $response;
+
+        // Save request and response inside one another
+        $response->setRequest($this);
+        $this->setResponse($response);
 
         // If response data was not set on the payment model during the request, set it manually now
-        if (! isset($this->payment->data['response'])) {
+        if (! $this->hasReceivedResponseData()) {
             $this->saveReceivedResponseData($response->getData());
         }
 
         return $response;
+    }
+
+    /**
+     * @param array $data
+     * @return RequestInterface
+     */
+    protected function saveReceivedResponseData(array $data)
+    {
+        $this->payment->data['response'] = $data;
+        $this->payment->save();
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasReceivedResponseData(): bool
+    {
+        return isset($this->payment->data['response']);
     }
 
     /**
@@ -174,5 +187,10 @@ abstract class AbstractRequest implements RequestInterface
         }
 
         return true;
+    }
+
+    private function setResponse(AbstractResponse $response)
+    {
+        $this->response = $response;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Common;
+namespace litvinjuan\LaravelPayments\Util;
 
 use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -45,20 +45,6 @@ trait ParametersTrait
     public function getParameters()
     {
         return $this->parameters->all();
-    }
-
-    /**
-     * Initialize the object with parameters.
-     *
-     * If any unknown parameters passed, they will be ignored.
-     *
-     * @param array $parameters An associative array of parameters
-     * @return $this.
-     */
-    public function initialize(array $parameters = [])
-    {
-        $this->parameters = new ParameterBag;
-        return $this;
     }
 
     /**

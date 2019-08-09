@@ -17,6 +17,9 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->string('gateway_name')->nullable();
+            $table->string('gateway_id')->nullable();
+
             $table->integer('payable_id');
             $table->string('payable_type');
             $table->integer('payer_id');
@@ -28,8 +31,6 @@ class CreatePaymentsTable extends Migration
 
             $table->string('state')->default(PaymentState::defaultValue());
             $table->json('data');
-
-            $table->string('gateway_id')->nullable();
 
             $table->timestamp('completed_at');
             $table->timestamps();
