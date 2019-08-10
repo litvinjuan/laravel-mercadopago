@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
+use Money\Currency;
 use Money\Money;
 
 /**
@@ -62,7 +63,7 @@ class Payment extends Model
 
     public function getPriceAttribute(): Money
     {
-        return money($this->attributes['price']);
+        return new Money($this->attributes['price'], new Currency(config('laravel-payments.currency')));
     }
 
     public function setPriceAttribute(Money $money)
@@ -72,7 +73,7 @@ class Payment extends Model
 
     public function getPaidAttribute(): Money
     {
-        return money($this->attributes['paid']);
+        return new Money($this->attributes['paid'], new Currency(config('laravel-payments.currency')));
     }
 
     public function setPaidAttribute(Money $money)

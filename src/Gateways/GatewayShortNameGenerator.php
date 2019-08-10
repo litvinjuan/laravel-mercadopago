@@ -1,9 +1,8 @@
 <?php
 
-namespace litvinjuan\LaravelPayments\Util;
+namespace litvinjuan\LaravelPayments\Gateways;
 
 use Illuminate\Support\Str;
-use litvinjuan\LaravelPayments\Gateways\GatewayInterface;
 
 class GatewayShortNameGenerator
 {

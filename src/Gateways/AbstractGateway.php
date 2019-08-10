@@ -16,7 +16,6 @@ use litvinjuan\LaravelPayments\Requests\AbstractRefundRequest;
 use litvinjuan\LaravelPayments\Requests\AbstractRequest;
 use litvinjuan\LaravelPayments\Requests\AbstractValidatePaymentRequest;
 use litvinjuan\LaravelPayments\Requests\AbstractVoidRequest;
-use litvinjuan\LaravelPayments\Util\GatewayShortNameGenerator;
 
 /**
  * @method AbstractPaymentNotificationRequest paymentNotification(array $parameters = array())
