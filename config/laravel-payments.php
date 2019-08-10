@@ -2,11 +2,10 @@
 
 return [
 
-    'default_gateway' => 'mercado-pago',
+    'default_gateway' => '',
     'currency' => 'USD',
 
     'gateways' => [
-        'mercado-pago' => \litvinjuan\LaravelPayments\Gateways\MercadoPagoGateway::class,
 //        'another' => Another\Gateway\Implementation::class,
     ],
 

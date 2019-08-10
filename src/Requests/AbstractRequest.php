@@ -57,17 +57,6 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return AbstractRequest
-     */
-    public function withParameter($key, $value)
-    {
-        $this->parameters->set($key, $value);
-        return $this;
-    }
-
-    /**
      * @param array $params
      * @return AbstractRequest
      */
@@ -75,7 +64,7 @@ abstract class AbstractRequest implements RequestInterface
     {
         // Override individual params and not the whole ParameterBag
         foreach ($params as $key => $value) {
-            $this->withParameter($key, $value);
+            $this->parameters->set($key, $value);
         }
 
         return $this;
@@ -86,7 +75,7 @@ abstract class AbstractRequest implements RequestInterface
      * @throws InvalidRequestException
      * @throws Exception
      */
-    public final function send()
+    public function send()
     {
         // Initialize request
         $this->init();
@@ -103,7 +92,7 @@ abstract class AbstractRequest implements RequestInterface
 
         // If response data was not set on the payment model during the request, set it manually now
         if (! $this->hasReceivedResponseData()) {
-            $this->saveReceivedResponseData($response->getData());
+            $this->saveReceivedResponseData($this->getResponse()->getData());
         }
 
         return $response;

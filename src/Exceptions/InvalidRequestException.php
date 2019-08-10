@@ -3,7 +3,6 @@
 namespace litvinjuan\LaravelPayments\Exceptions;
 
 use Exception;
-use Illuminate\Support\Collection;
 
 class InvalidRequestException extends Exception
 {
@@ -25,12 +24,17 @@ class InvalidRequestException extends Exception
 
     public static function missingParameters(string $key)
     {
-        return new self('The following parameter is missing in your request: ' . $key);
+        return new self("The following parameter is missing in your request: [$key]");
     }
 
     public static function zeroAmount()
     {
         return new self('This request does not allow an amount of 0');
+    }
+
+    public static function notFound($request)
+    {
+        return new self("The request [$request] does not exists.");
     }
 
 }

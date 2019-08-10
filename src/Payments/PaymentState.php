@@ -10,24 +10,48 @@ class PaymentState extends Enum
     const __default = self::PENDING;
 
     const PENDING = 'pending';
-    const PURCHASED = 'purchased';
-    const COMPLETED = 'completed';
+
+    const AUTHORIZING = 'authorizing';
+    const AUTHORIZED = 'authorized';
+
+    const CAPTURED = 'captured';
+
+    const VOIDED = 'voided';
+
+    const RETURNED = 'returned';
+    const PARTIALLY_RETURNED = 'partially-returned';
+
+    const PURCHASING = 'purchasing';
+    const PURCHASED = 'purchased'; // Completed
+
     const FAILED = 'failed';
 
     public static function all()
     {
         return [
             self::PENDING,
+            self::AUTHORIZING,
+            self::AUTHORIZED,
+            self::CAPTURED,
+            self::VOIDED,
+            self::RETURNED,
+            self::PARTIALLY_RETURNED,
+            self::PURCHASING,
             self::PURCHASED,
-            self::COMPLETED,
             self::FAILED,
         ];
     }
 
     protected static $labels = [
         self::PENDING => 'Pending',
+        self::AUTHORIZING => 'Authorizing',
+        self::AUTHORIZED => 'Authorized',
+        self::CAPTURED => 'Captured',
+        self::VOIDED => 'Voided',
+        self::RETURNED => 'Returned',
+        self::PARTIALLY_RETURNED => 'Partially Returned',
+        self::PURCHASING => 'Purchasing',
         self::PURCHASED => 'Purchased',
-        self::COMPLETED => 'Completed',
         self::FAILED => 'Failed',
     ];
 

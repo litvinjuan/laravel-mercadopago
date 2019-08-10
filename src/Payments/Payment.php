@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
-use litvinjuan\LaravelPayments\Handlers\ValidateTransactionPaymentHandler;
+use litvinjuan\LaravelPayments\Handlers\ValidatePaymentPaymentHandler;
 use Money\Money;
 
 /**
@@ -93,7 +93,7 @@ class Payment extends Model
     public function validate()
     {
         try {
-            return (new ValidateTransactionPaymentHandler())->handle($this);
+            return (new ValidatePaymentPaymentHandler())->handle($this);
         } catch (Exception $e) {
             return false;
         }

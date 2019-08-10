@@ -4,32 +4,42 @@ namespace litvinjuan\LaravelPayments\Gateways;
 
 use BadMethodCallException;
 use Illuminate\Support\Str;
+use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
+use litvinjuan\LaravelPayments\Requests\AbstractAuthorizeRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractCaptureRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractCompleteAuthorizeRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractCompletePurchaseRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractGetPaymentRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractPaymentNotificationRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractPurchaseRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractRefundRequest;
 use litvinjuan\LaravelPayments\Requests\AbstractRequest;
-use litvinjuan\LaravelPayments\Requests\RequestInterface;
+use litvinjuan\LaravelPayments\Requests\AbstractValidatePaymentRequest;
+use litvinjuan\LaravelPayments\Requests\AbstractVoidRequest;
 use litvinjuan\LaravelPayments\Util\GatewayShortNameGenerator;
 
 /**
- * @method AbstractRequest notification(array $options = array())
- * @method AbstractRequest authorize(array $options = array())
- * @method AbstractRequest completeAuthorize(array $options = array())
- * @method AbstractRequest capture(array $options = array())
- * @method AbstractRequest purchase(array $options = array())
- * @method AbstractRequest completePurchase(array $options = array())
- * @method AbstractRequest refund(array $options = array())
- * @method AbstractRequest getTransaction(array $options = array())
- * @method AbstractRequest void(array $options = array())
- * @method AbstractRequest validateTransaction(array $options = array())
+ * @method AbstractPaymentNotificationRequest paymentNotification(array $parameters = array())
+ * @method AbstractAuthorizeRequest authorize(array $parameters = array())
+ * @method AbstractCompleteAuthorizeRequest completeAuthorize(array $parameters = array())
+ * @method AbstractCaptureRequest capture(array $parameters = array())
+ * @method AbstractPurchaseRequest purchase(array $parameters = array())
+ * @method AbstractCompletePurchaseRequest completePurchase(array $parameters = array())
+ * @method AbstractRefundRequest refund(array $parameters = array())
+ * @method AbstractGetPaymentRequest getPayment(array $parameters = array())
+ * @method AbstractVoidRequest void(array $parameters = array())
+ * @method AbstractValidatePaymentRequest validatePayment(array $parameters = array())
  *
- * @method bool supportsNotification(array $options = array())
- * @method bool supportsAuthorize(array $options = array())
- * @method bool supportsCompleteAuthorize(array $options = array())
- * @method bool supportsCapture(array $options = array())
- * @method bool supportsPurchase(array $options = array())
- * @method bool supportsCompletePurchase(array $options = array())
- * @method bool supportsRefund(array $options = array())
- * @method bool supportsGetTransaction(array $options = array())
- * @method bool supportsVoid(array $options = array())
- * @method bool supportsValidateTransaction(array $options = array())
+ * @method bool supportsPaymentNotification(array $parameters = array())
+ * @method bool supportsAuthorize(array $parameters = array())
+ * @method bool supportsCompleteAuthorize(array $parameters = array())
+ * @method bool supportsCapture(array $parameters = array())
+ * @method bool supportsPurchase(array $parameters = array())
+ * @method bool supportsCompletePurchase(array $parameters = array())
+ * @method bool supportsRefund(array $parameters = array())
+ * @method bool supportsGetPayment(array $parameters = array())
+ * @method bool supportsVoid(array $parameters = array())
+ * @method bool supportsValidatePayment(array $parameters = array())
  */
 abstract class AbstractGateway implements GatewayInterface
 {
@@ -64,8 +74,14 @@ abstract class AbstractGateway implements GatewayInterface
      * @param string $requestClass
      * @param array|null $params
      * @return AbstractRequest
+     * @throws InvalidRequestException
      */
-    protected final function createRequest(string $requestClass, array $params = null) {
+    protected final function createRequest(string $requestClass, array $params = null)
+    {
+        if (! class_exists($requestClass)) {
+            throw InvalidRequestException::notFound($requestClass);
+        }
+
         /** @var AbstractRequest $request */
         $request = (new $requestClass());
         $request->withParameters($params ?? $this->getDefaultParameters());

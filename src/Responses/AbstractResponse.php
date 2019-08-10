@@ -13,9 +13,6 @@ abstract class AbstractResponse implements ResponseInterface
     /** @var RequestInterface */
     protected $request;
 
-    /** @var int */
-    protected $code;
-
     /**
      * @param array $data
      */
@@ -46,22 +43,6 @@ abstract class AbstractResponse implements ResponseInterface
     public final function setRequest(RequestInterface $request)
     {
         $this->request = $request;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
-    {
-        return $this->code >= 200 && $this->code <= 300;
     }
 
 }
