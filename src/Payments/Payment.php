@@ -81,6 +81,15 @@ class Payment extends Model
         $this->attributes['paid'] = $money->getAmount();
     }
 
+    public function setCompletedAtAttribute(Carbon $completed_at)
+    {
+        if ($this->completed_at) {
+            throw new Exception('The completed_at attribute can only be set once');
+        }
+
+        $this->attributes['completed_at'] = $completed_at;
+    }
+
     public function setGateway(string $gateway)
     {
         $this->gateway_name = $gateway;
