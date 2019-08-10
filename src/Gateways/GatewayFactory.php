@@ -18,7 +18,8 @@ class GatewayFactory
     public static function make(Payment $payment = null): AbstractGateway
     {
         // Get the Gateway Class from the config file using the payment's gateway_name attribute, or the default gateway if none was set.
-        $gatewayClass = config('laravel-payments.gateways')[optional($payment)->gateway_name ?? config('laravel-payments.default_gateway')];
+        $gateway = optional($payment)->gateway_name ?? config('laravel-payments.default_gateway');
+        $gatewayClass = config('laravel-payments.gateways')[$gateway]['gateway'];
 
         // Check the Gateway Class exists
         if (! class_exists($gatewayClass)) {

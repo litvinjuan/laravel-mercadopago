@@ -6,8 +6,19 @@ return [
     'currency' => 'USD',
 
     'gateways' => [
-        'default' => ''
-//        'another' => Another\Gateway\Implementation::class,
+        'default' => [
+            'gateway' => 'Gateway\Class',
+            'params' => [
+                'key1' => 'value1',
+            ],
+        ],
+
+//        'another' => [
+//            'gateway' => 'Gateway\Class',
+//            'params' => [
+//                'key1' => 'value1',
+//            ],
+//        ],
     ],
 
 ];
