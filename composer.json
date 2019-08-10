@@ -21,15 +21,11 @@
     }
   ],
   "require": {
-    "php": ">=7",
+    "php": ">=7.2",
     "ext-json": "*",
     "moneyphp/money": "^3.2",
     "konekt/enum-eloquent": "^1.2",
-    "mercadopago/dx-php": "^1.2",
-    "carbondate/carbon": "^1.33",
-    "spatie/laravel-html": "^2.22",
-    "illuminate/routing": "^5.8",
-    "illuminate/validation": "^5.8"
+    "carbondate/carbon": "^1.33"
   },
   "autoload": {
     "psr-4": {

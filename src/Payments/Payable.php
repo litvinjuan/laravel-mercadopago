@@ -2,11 +2,10 @@
 
 namespace litvinjuan\LaravelPayments\Payments;
 
-use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Money\Money;
 
-interface Payable extends UrlRoutable
+interface Payable
 {
 
     public function getPayablePrice(): Money;
