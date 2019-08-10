@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Konekt\Enum\Eloquent\CastsEnums;
-use litvinjuan\LaravelPayments\Handlers\ValidatePaymentPaymentHandler;
 use Money\Money;
 
 /**
@@ -94,18 +93,6 @@ class Payment extends Model
     {
         $this->gateway_name = $gateway;
         $this->save();
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate()
-    {
-        try {
-            return (new ValidatePaymentPaymentHandler())->handle($this);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 
     /**

@@ -5,6 +5,7 @@ namespace litvinjuan\LaravelPayments\Requests;
 use Exception;
 use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Payments\Payment;
+use litvinjuan\LaravelPayments\Payments\PaymentState;
 use litvinjuan\LaravelPayments\Responses\AbstractValidatePaymentResponse;
 
 abstract class AbstractValidatePaymentRequest extends AbstractRequest
@@ -44,13 +45,26 @@ abstract class AbstractValidatePaymentRequest extends AbstractRequest
     }
 
     /**
-     * @return AbstractValidatePaymentResponse
+     * @return bool
      * @throws InvalidRequestException
      */
     public final function send()
     {
+        if (! $this->payment->state->is(PaymentState::PURCHASED)) {
+            return false;
+        }
+
+        if (! $this->payment->paid) {
+            return false;
+        }
+
+        if (! $this->payment->paid->equals($this->payment->price)) {
+            return false;
+        }
+
         /** @var AbstractValidatePaymentResponse $response */
         $response = parent::send();
-        return $response;
+
+        return $response->validated();
     }
 }
