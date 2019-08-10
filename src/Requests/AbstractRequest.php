@@ -3,16 +3,14 @@
 namespace litvinjuan\LaravelPayments\Requests;
 
 use Exception;
-use Illuminate\Support\Collection;
 use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Payments\Payment;
 use litvinjuan\LaravelPayments\Responses\AbstractResponse;
 use litvinjuan\LaravelPayments\Responses\ResponseInterface;
-use litvinjuan\LaravelPayments\Util\ParametersTrait;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 abstract class AbstractRequest implements RequestInterface
 {
-    use ParametersTrait;
 
     /** @var ResponseInterface */
     protected $response;
@@ -20,8 +18,11 @@ abstract class AbstractRequest implements RequestInterface
     /** @var Payment */
     protected $payment;
 
+    /** @var ParameterBag */
+    protected $parameters;
+
     /** @var string[] */
-    protected $required = [];
+    protected $requiredParameters = [];
 
     /** @var bool */
     protected $zeroAmountAllowed = true;
@@ -39,7 +40,7 @@ abstract class AbstractRequest implements RequestInterface
 
     /**
      * @param Payment $payment
-     * @return RequestInterface
+     * @return AbstractRequest
      */
     public function payment(Payment $payment)
     {
@@ -48,14 +49,33 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters->all();
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return AbstractRequest
+     */
+    public function withParameter($key, $value)
+    {
+        $this->parameters->set($key, $value);
+        return $this;
+    }
+
+    /**
      * @param array $params
-     * @return RequestInterface
+     * @return AbstractRequest
      */
     public function withParameters(array $params)
     {
         // Override individual params and not the whole ParameterBag
         foreach ($params as $key => $value) {
-            $this->setParameter($key, $value);
+            $this->withParameter($key, $value);
         }
 
         return $this;
@@ -90,14 +110,22 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
+    protected function getParameter($key, $default = null)
+    {
+        return $this->parameters->get($key) ?? $this->payment->getParameter($key) ?? $default;
+    }
+
+    /**
      * @param array $data
      * @return RequestInterface
      */
     protected function saveReceivedResponseData(array $data)
     {
-        $this->payment->data['response'] = $data;
-        $this->payment->save();
-
+        $this->payment->setParameter('response', $data);
         return $this;
     }
 
@@ -106,7 +134,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     protected function hasReceivedResponseData(): bool
     {
-        return isset($this->payment->data['response']);
+        return !! $this->payment->getParameter('response');
     }
 
     /**
@@ -137,22 +165,27 @@ abstract class AbstractRequest implements RequestInterface
         }
 
         // Check all required params are set.
-        $missingParams = new Collection();
-        foreach ($this->required as $param) {
-            $value = $this->payment->data[$param];
-            if (! isset($value) || is_null($value)) {
-                $missingParams->add($param);
-            }
-        }
-        if ($missingParams->isNotEmpty()) {
-            throw InvalidRequestException::missingParameters($missingParams);
-        }
+        $this->validateParameters($this->requiredParameters);
 
+        // Check that amount is not zero or negative if applicable
         $this->validateZeroAmount();
-
         $this->validateNegativeAmount();
 
         return true;
+    }
+
+    /**
+     * @param string[] $args
+     * @throws InvalidRequestException
+     */
+    private function validateParameters(...$args)
+    {
+        foreach ($args as $key) {
+            $value = $this->parameters->get($key);
+            if (! isset($value)) {
+                throw InvalidRequestException::missingParameters($key);
+            }
+        }
     }
 
     /**

@@ -9,16 +9,16 @@ use litvinjuan\LaravelPayments\Requests\RequestInterface;
 use litvinjuan\LaravelPayments\Util\GatewayShortNameGenerator;
 
 /**
- * @method RequestInterface notification(array $options = array())
- * @method RequestInterface authorize(array $options = array())
- * @method RequestInterface completeAuthorize(array $options = array())
- * @method RequestInterface capture(array $options = array())
- * @method RequestInterface purchase(array $options = array())
- * @method RequestInterface completePurchase(array $options = array())
- * @method RequestInterface refund(array $options = array())
- * @method RequestInterface getTransaction(array $options = array())
- * @method RequestInterface void(array $options = array())
- * @method RequestInterface validateTransaction(array $options = array())
+ * @method AbstractRequest notification(array $options = array())
+ * @method AbstractRequest authorize(array $options = array())
+ * @method AbstractRequest completeAuthorize(array $options = array())
+ * @method AbstractRequest capture(array $options = array())
+ * @method AbstractRequest purchase(array $options = array())
+ * @method AbstractRequest completePurchase(array $options = array())
+ * @method AbstractRequest refund(array $options = array())
+ * @method AbstractRequest getTransaction(array $options = array())
+ * @method AbstractRequest void(array $options = array())
+ * @method AbstractRequest validateTransaction(array $options = array())
  *
  * @method bool supportsNotification(array $options = array())
  * @method bool supportsAuthorize(array $options = array())

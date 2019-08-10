@@ -25,7 +25,7 @@ use Money\Money;
  * @property string $description
  *
  * @property PaymentState $state
- * @property array $data
+ * @property array $parameters
  *
  * @property-read Payable $payable
  * @property-read Payer $payer
@@ -44,7 +44,7 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'data' => 'array'
+        'parameters' => 'array'
     ];
 
     protected $enums = [
@@ -97,6 +97,35 @@ class Payment extends Model
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setParameter($key, $value)
+    {
+        $this->parameters[$key] = $value;
+        $this->save();
+    }
+
+    /**
+     * @param $key
+     * @param null $default
+     *
+     * @return mixed|null
+     */
+    public function getParameter($key, $default = null)
+    {
+        return $this->parameters[$key] ?? $default;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
     }
 
 }

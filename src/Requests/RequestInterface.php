@@ -20,7 +20,7 @@ interface RequestInterface
 
     /**
      * @param Payment $payment
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function payment(Payment $payment);
 

@@ -11,7 +11,7 @@ use MercadoPago\SDK as MP;
 class PurchaseRequest extends AbstractRequest
 {
 
-    protected $required = [
+    protected $requiredParameters = [
         'cardToken',
         'paymentMethodId',
     ];
@@ -54,7 +54,7 @@ class PurchaseRequest extends AbstractRequest
      */
     private function getCardToken(): string
     {
-        return $this->payment->data['cardToken'];
+        return $this->payment->getParameter('cardToken');
     }
 
     /**
@@ -62,7 +62,7 @@ class PurchaseRequest extends AbstractRequest
      */
     private function getPaymentMethodId(): string
     {
-        return $this->payment->data['paymentMethodId'];
+        return $this->payment->getParameter('paymentMethodId');
     }
 
     /**

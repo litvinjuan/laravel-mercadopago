@@ -23,9 +23,9 @@ class InvalidRequestException extends Exception
         return new self('You cannot modify or send a request that has already been sent.');
     }
 
-    public static function missingParameters(Collection $parameters)
+    public static function missingParameters(string $key)
     {
-        return new self('The following parameters were missing in your request: ' . $parameters->implode(', '));
+        return new self('The following parameter is missing in your request: ' . $key);
     }
 
     public static function zeroAmount()
