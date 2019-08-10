@@ -7,7 +7,6 @@ use litvinjuan\LaravelPayments\Exceptions\InvalidRequestException;
 use litvinjuan\LaravelPayments\Payments\Payment;
 use litvinjuan\LaravelPayments\Responses\AbstractResponse;
 use litvinjuan\LaravelPayments\Responses\ResponseInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 abstract class AbstractRequest implements RequestInterface
 {
@@ -18,7 +17,7 @@ abstract class AbstractRequest implements RequestInterface
     /** @var Payment */
     protected $payment;
 
-    /** @var ParameterBag */
+    /** @var array */
     protected $parameters;
 
     /** @var string[] */
@@ -53,7 +52,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function getParameters()
     {
-        return $this->parameters->all();
+        return $this->parameters;
     }
 
     /**
@@ -64,7 +63,7 @@ abstract class AbstractRequest implements RequestInterface
     {
         // Override individual params and not the whole ParameterBag
         foreach ($params as $key => $value) {
-            $this->parameters->set($key, $value);
+            $this->parameters[$key] = $value;
         }
 
         return $this;
@@ -105,7 +104,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     protected function getParameter($key, $default = null)
     {
-        return $this->parameters->get($key) ?? $this->payment->getParameter($key) ?? $default;
+        return $this->parameters[$key] ?? $this->payment->getParameter($key) ?? $default;
     }
 
     /**
@@ -170,7 +169,7 @@ abstract class AbstractRequest implements RequestInterface
     private function validateParameters(...$args)
     {
         foreach ($args as $key) {
-            $value = $this->parameters->get($key);
+            $value = $this->parameters[$key];
             if (! isset($value)) {
                 throw InvalidRequestException::missingParameters($key);
             }
