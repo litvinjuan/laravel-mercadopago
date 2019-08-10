@@ -166,7 +166,7 @@ abstract class AbstractRequest implements RequestInterface
      * @param string[] $args
      * @throws InvalidRequestException
      */
-    private function validateParameters(...$args)
+    private function validateParameters(array $args)
     {
         foreach ($args as $key) {
             $value = $this->parameters[$key];

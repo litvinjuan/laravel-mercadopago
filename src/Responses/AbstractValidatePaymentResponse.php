@@ -15,4 +15,9 @@ abstract class AbstractValidatePaymentResponse extends AbstractResponse
      */
     public abstract function validated();
 
+    /**
+     * @return string
+     */
+    public abstract function getMessage();
+
 }

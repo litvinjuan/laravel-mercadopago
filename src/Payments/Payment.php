@@ -102,7 +102,9 @@ class Payment extends Model
      */
     public function setParameter($key, $value)
     {
-        $this->parameters[$key] = $value;
+        $params = $this->parameters;
+        $params[$key] = $value;
+        $this->parameters = $params;
         $this->save();
     }
 
