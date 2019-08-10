@@ -16,6 +16,7 @@ class CreatePaymentHandler
         $payment->price = $payable->getPayablePrice();
         $payment->description = $payable->getPayableDescription();
         $payment->gateway_name = config('laravel-payments.default_gateway');
+        $payment->parameters = [];
 
         $payment->payable()->associate($payable);
         $payment->payer()->associate($payable->payer());
