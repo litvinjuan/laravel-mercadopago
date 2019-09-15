@@ -7,7 +7,7 @@ use Konekt\Enum\Enum;
 class PaymentState extends Enum
 {
 
-    const __default = self::PENDING;
+    const __DEFAULT = self::PENDING;
 
     const PENDING = 'pending';
 

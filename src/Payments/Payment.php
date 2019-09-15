@@ -84,7 +84,7 @@ class Payment extends Model
     public function setCompletedAtAttribute(Carbon $completed_at)
     {
         if ($this->completed_at) {
-            throw new Exception('The completed_at attribute can only be set once');
+            throw new Exception('The completed_at attribute cannot be overridden.');
         }
 
         $this->attributes['completed_at'] = $completed_at;
