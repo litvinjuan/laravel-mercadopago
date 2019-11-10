@@ -1,6 +1,6 @@
 {
   "name": "litvinjuan/laravel-payments",
-  "description": "A MercadoPago Payments package for Laravel",
+  "description": "A Payments package for Laravel",
   "license": "MIT",
   "keywords": [
     "laravel",
